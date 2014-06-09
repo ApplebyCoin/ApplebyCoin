@@ -1,27 +1,27 @@
-#include "freicoinunits.h"
+#include "applebycoinunits.h"
 
 #include <QStringList>
 
-FreicoinUnits::FreicoinUnits(QObject *parent):
+applebycoinUnits::applebycoinUnits(QObject *parent):
         QAbstractListModel(parent),
         unitlist(availableUnits())
 {
 }
 
-QList<FreicoinUnits::Unit> FreicoinUnits::availableUnits()
+QList<applebycoinUnits::Unit> applebycoinUnits::availableUnits()
 {
-    QList<FreicoinUnits::Unit> unitlist;
-    unitlist.append(FRC);
+    QList<applebycoinUnits::Unit> unitlist;
+    unitlist.append(ACC);
     unitlist.append(mFRC);
     unitlist.append(uFRC);
     return unitlist;
 }
 
-bool FreicoinUnits::valid(int unit)
+bool applebycoinUnits::valid(int unit)
 {
     switch(unit)
     {
-    case FRC:
+    case ACC:
     case mFRC:
     case uFRC:
         return true;
@@ -30,62 +30,62 @@ bool FreicoinUnits::valid(int unit)
     }
 }
 
-QString FreicoinUnits::name(int unit)
+QString applebycoinUnits::name(int unit)
 {
     switch(unit)
     {
-    case FRC: return QString("FRC");
+    case ACC: return QString("ACC");
     case mFRC: return QString("mFRC");
     case uFRC: return QString::fromUtf8("μFRC");
     default: return QString("???");
     }
 }
 
-QString FreicoinUnits::description(int unit)
+QString applebycoinUnits::description(int unit)
 {
     switch(unit)
     {
-    case FRC: return QString("Freicoins");
-    case mFRC: return QString("Milli-Freicoins (1 / 1,000)");
-    case uFRC: return QString("Micro-Freicoins (1 / 1,000,000)");
+    case ACC: return QString("applebycoins");
+    case mFRC: return QString("Milli-applebycoins (1 / 1,000)");
+    case uFRC: return QString("Micro-applebycoins (1 / 1,000,000)");
     default: return QString("???");
     }
 }
 
-mpq FreicoinUnits::factor(int unit)
+mpq applebycoinUnits::factor(int unit)
 {
     switch(unit)
     {
     case uFRC: return mpq("100/1");
     case mFRC: return mpq("100000/1");
     default:
-    case FRC:  return mpq("100000000/1");
+    case ACC:  return mpq("100000000/1");
     }
 }
 
-int FreicoinUnits::amountDigits(int unit)
+int applebycoinUnits::amountDigits(int unit)
 {
     switch(unit)
     {
-    case FRC: return 8; // <100,000,000 (# digits, without commas)
+    case ACC: return 8; // <100,000,000 (# digits, without commas)
     case mFRC: return 11; // <100,000,000,000
     case uFRC: return 14; // <100,000,000,000,000
     default: return 0;
     }
 }
 
-int FreicoinUnits::decimals(int unit)
+int applebycoinUnits::decimals(int unit)
 {
     switch(unit)
     {
-    case FRC: return 8;
+    case ACC: return 8;
     case mFRC: return 5;
     case uFRC: return 2;
     default: return 0;
     }
 }
 
-QString FreicoinUnits::format(int unit, const mpq& n, bool fPlus)
+QString applebycoinUnits::format(int unit, const mpq& n, bool fPlus)
 {
     // Note: not using straight sprintf here because we do NOT want
     // localized number formatting.
@@ -99,12 +99,12 @@ QString FreicoinUnits::format(int unit, const mpq& n, bool fPlus)
     return QString::fromStdString(str);
 }
 
-QString FreicoinUnits::formatWithUnit(int unit, const mpq& amount, bool plussign)
+QString applebycoinUnits::formatWithUnit(int unit, const mpq& amount, bool plussign)
 {
     return format(unit, amount, plussign) + QString(" ") + name(unit);
 }
 
-bool FreicoinUnits::parse(int unit, const QString &value, mpq *val_out)
+bool applebycoinUnits::parse(int unit, const QString &value, mpq *val_out)
 {
     mpq ret_value;
     if (!ParseMoney(value.toStdString(), ret_value))
@@ -116,13 +116,13 @@ bool FreicoinUnits::parse(int unit, const QString &value, mpq *val_out)
     return true;
 }
 
-int FreicoinUnits::rowCount(const QModelIndex &parent) const
+int applebycoinUnits::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return unitlist.size();
 }
 
-QVariant FreicoinUnits::data(const QModelIndex &index, int role) const
+QVariant applebycoinUnits::data(const QModelIndex &index, int role) const
 {
     int row = index.row();
     if(row >= 0 && row < unitlist.size())

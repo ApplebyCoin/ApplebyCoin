@@ -1,25 +1,25 @@
-#ifndef FREICOINUNITS_H
-#define FREICOINUNITS_H
+#ifndef applebycoinUNITS_H
+#define applebycoinUNITS_H
 
 #include "bignum.h" // for mpq
 
 #include <QString>
 #include <QAbstractListModel>
 
-/** Freicoin unit definitions. Encapsulates parsing and formatting
+/** applebycoin unit definitions. Encapsulates parsing and formatting
    and serves as list model for dropdown selection boxes.
 */
-class FreicoinUnits: public QAbstractListModel
+class applebycoinUnits: public QAbstractListModel
 {
 public:
-    explicit FreicoinUnits(QObject *parent);
+    explicit applebycoinUnits(QObject *parent);
 
-    /** Freicoin units.
+    /** applebycoin units.
       @note Source: https://en.bitcoin.it/wiki/Units . Please add only sensible ones
      */
     enum Unit
     {
-        FRC,
+        ACC,
         mFRC,
         uFRC
     };
@@ -61,8 +61,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     ///@}
 private:
-    QList<FreicoinUnits::Unit> unitlist;
+    QList<applebycoinUnits::Unit> unitlist;
 };
-typedef FreicoinUnits::Unit FreicoinUnit;
+typedef applebycoinUnits::Unit applebycoinUnit;
 
-#endif // FREICOINUNITS_H
+#endif // applebycoinUNITS_H
